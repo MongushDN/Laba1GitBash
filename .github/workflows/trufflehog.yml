@@ -15,16 +15,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: TruffleHog OSS
-        id: trufflehof
+      - name: TruffleHog Filesystem Scan
+        id: trufflehog
         uses: trufflesecurity/trufflehog@main
         continue-on-error: true
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
+          extra_args: --debug --results=verified,unknown
 
       - name: Fail if secrets found
         if: steps.trufflehog.outcome == 'failure'
-        run: exit 1
+        run: |
+          echo "::error::TruffleHog found secrets in this PR!"
+          exit 1
