@@ -1,2 +1,3 @@
 Halowowewe
-We prefer B!
+<<<<<<< HEAD
+We admire B!
