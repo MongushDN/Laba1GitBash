@@ -62,7 +62,7 @@
             
             try {
                 // Обращаемся к бэкенду по имени сервиса из docker-compose
-                const res = await fetch('http://localhost:5000/ping');
+                const res = await fetch('http://192.168.122.114:5000/ping');
                 const data = await res.json();
                 responseDiv.innerHTML = `
                     <strong>${data.message}</strong><br>
