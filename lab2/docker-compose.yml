@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: lab2_backend
+    ports:
+      - "5000:5000"
+    networks:
+      - lab2_network
+
+  frontend:
+    build: ./frontend
+    container_name: lab2_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - lab2_network
+
+networks:
+  lab2_network:
+    driver: bridge
