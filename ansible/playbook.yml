@@ -1,0 +1,39 @@
+---
+- name: Развертывание приложения на VM
+  hosts: lab2vm
+  become: yes
+
+  tasks:
+    - name: Обновить apt
+      apt:
+        update_cache: yes
+
+    - name: Установить git
+      apt:
+        name: git
+        state: present
+
+    - name: Установить Docker и Compose
+      apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+        state: present
+
+    - name: Добавить пользователя в группу docker
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Скачать репозиторий
+      git:
+        repo: https://github.com/MongushDN/Laba1GitBash.git
+        dest: /home/{{ ansible_user }}/Laba1GitBash
+        force: yes
+
+    - name: Запустить docker compose
+      shell: |
+        cd /home/{{ ansible_user }}/Laba1GitBash/lab2
+        docker compose up --build -d
+      become_user: "{{ ansible_user }}"
